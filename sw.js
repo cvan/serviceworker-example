@@ -1,5 +1,7 @@
+// To polyfill `caches.{add,addAll,match}` for Chrome 40.
+// As of this writing, Firefox's Service Worker implementation has
+// no `caches` support yet (and this polyfill doesn't polyfill that).
 importScripts('serviceworker-cache-polyfill.js');
-
 
 var CACHE_NAME = 'example';
 var CACHE_VERSION = 1;
