@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Worker example</title>
+  </head>
+  <body>
+    <h1>Service Worker example</h1>
+    <p>Check your Developer Tools’ JS console.</p>
+    <script>
+      handleSW();
+
+      function handleSW() {
+        if (!('serviceWorker' in navigator)) {
+          console.warn('Service Workers are not supported in your browser');
+          return;
+        }
+
+        // Service Workers require HTTPS (http://goo.gl/lq4gCo). `localhost`
+        // on a custom port is whitelisted.
+        if (location.protocol === 'file:') {
+          // Just don't execute the SW code if we're viewing the document.
+          return;
+        }
+
+        if (location.protocol === 'http:' &&
+            (!location.port || location.port === '80')) {
+          // Change the protocol to HTTPS if we're running on a real server.
+          location.protocol = 'https:';
+        }
+
+        if (localStorage.disable_sw) {
+          console.log('Service Workers are temporarily disabled');
+          navigator.serviceWorker.getRegistration('./sw.js').then(function (sw) {
+            if (sw) {
+              console.log('Temporarily disabling Service Workers, unregistering…');
+              sw.unregister();
+            }
+          });
+          return;
+        }
+
+        navigator.serviceWorker.register('./sw.js', {scope: './'}).then(function (sw) {
+          if (navigator.serviceWorker.controller) {
+            console.log('Page successfully fetched from cache by the Service Worker');
+          } else {
+            console.log('Page successfully registered by the Service Worker');
+          }
+        }).catch(function (err) {
+          console.error('Service Worker error occurred: ' + err);
+        });
+      }
+    </script>
+  </body>
+</html>
