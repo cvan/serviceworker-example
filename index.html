@@ -31,10 +31,10 @@
         }
 
         if (localStorage.disable_sw) {
-          console.log('Service Workers are temporarily disabled');
+          console.log('Service Workers is temporarily disabled');
           navigator.serviceWorker.getRegistration('./sw.js').then(function (sw) {
             if (sw) {
-              console.log('Temporarily disabling Service Workers, unregistering…');
+              console.log('Temporarily disabling Service Worker, unregistering…');
               sw.unregister();
             }
           });
