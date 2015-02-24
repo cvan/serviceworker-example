@@ -12,7 +12,7 @@ A server is required for Service Workers, even if it's just a simple server runn
 
 ### Advanced
 
-To tempoarily disable Service Worker caching (for ease of testing), run this from your browser console:
+To temporarily disable Service Worker caching (for ease of testing), run this from your browser console:
 
     localStorage.disable_sw = '1'
 
